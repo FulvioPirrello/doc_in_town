@@ -1,0 +1,8 @@
+.mappa {
+    width: 500px;
+    height: 400px;
+}
+
+.leaflet-bottom, .leaflet-right {
+    display: none;
+}

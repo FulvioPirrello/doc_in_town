@@ -1,0 +1,169 @@
+.dettagli_utente 
+{
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: sans-serif;
+}
+
+.dettagli_utente h1 
+{
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee; 
+    padding-bottom: 10px;
+}
+
+.credenziali 
+{
+    background-color: #fff;
+    padding: 0; 
+}
+
+.box_utente 
+{
+    background-color: #f9f9f9; 
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); 
+}
+
+.box_utente p 
+{
+    margin: 10px 0;
+    font-size: 1.1rem;
+    color: #555;
+}
+
+.box_utente strong 
+{
+    color: #222;
+    margin-right: 5px;
+}
+
+.appuntamenti 
+{
+    width: 100%;
+}
+
+.appuntamenti_utente 
+{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    align-items: stretch; 
+}
+
+.card-appuntamento 
+{
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative; 
+    padding-bottom: 70px; 
+}
+
+.header-card 
+{
+    background-color: #2c3e50; 
+    color: #fff;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+}
+
+.data-visita 
+{
+    font-size: 1.1rem;
+}
+
+.ora-visita 
+{
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+.body-card 
+{
+    padding: 20px;
+}
+
+.body-card h3 
+{
+    margin: 0 0 5px 0;
+    font-size: 1.3rem;
+    color: #2c3e50;
+}
+
+.specializzazione 
+{
+    color: #3498db; 
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.indirizzo 
+{
+    color: #666;
+    font-size: 0.95rem;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.note-box 
+{
+    background-color: #fff3cd; 
+    color: #856404;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    border-left: 4px solid #ffeeba;
+}
+
+.btn-cancella 
+{
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: background 0.3s;
+    position: absolute;
+    bottom: 20px;          
+    left: 20px;            
+    width: calc(100% - 40px); 
+    margin: 0;             
+}
+
+.btn-cancella:hover 
+{
+    background-color: #c0392b;
+}
+
+@media (max-width: 768px) 
+{
+    .dettagli_utente 
+    {
+        padding: 20px;
+    }
+    
+    .appuntamenti_utente 
+    {
+        grid-template-columns: 1fr;
+    }
+}
