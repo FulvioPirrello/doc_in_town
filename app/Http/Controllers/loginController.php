@@ -1,45 +1,47 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
     public function login(Request $request) 
     {
-        $email_or_username = trim($request->input('email') ?? $request->input('username'));
-        $password = ($request->input('password'));
+        // 1. Validazione Automatica
+        // Se i campi sono vuoti, Laravel risponde automaticamente col 422 e il messaggio d'errore.
+        $request->validate([
+            'email'    => 'required|string', // Dal frontend arriva il campo 'email' anche se è un username
+            'password' => 'required|string',
+        ], [
+            'email.required'    => 'Inserisci username o email.',
+            'password.required' => 'Inserisci la password.'
+        ]);
 
-        if(empty($email_or_username))
-        {
-            return response()->json([
-                "success" => false,
-                "messaggio"=>"Inserire un Username o un'email valida."
-            ], 422);
-        }
-        if(empty($password))
-        {
-            return response()->json([
-                "success" => false,
-                "messaggio"=>"Inserire una Password valida."
-            ], 422);
-        }
-
-        $controllo = filter_var($email_or_username, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        // 2. Logica Username o Email
+        // Capiamo se l'utente ha scritto una mail o un username
+        $loginType = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
         
-        if (Auth::attempt([$controllo => $email_or_username, 'password' => $password])) 
+        // 3. Tentativo di Login
+        // Auth::attempt controlla le credenziali e avvia la sessione se corrette
+        if (Auth::attempt([$loginType => $request->input('email'), 'password' => $request->input('password')])) 
         {
-            $user = Auth::user();
+            $request->session()->regenerate(); // Importante per la sicurezza (Fix Session Fixation)
+
             return response()->json([
-                "success" => true,
-                "username" => $user->name,
+                "success"   => true,
+                "username"  => Auth::user()->name,
                 "messaggio" => "Login effettuato correttamente"
-            ],200);
+            ], 200);
         }
+
+        // 4. Risposta in caso di fallimento
+        // Ritorniamo un 401 (Unauthorized)
         return response()->json([
-        "success" => false,
-        "messaggio" => ["Login fallito! Credenziali non valide."]
+            "success"   => false,
+            "messaggio" => "Credenziali non valide."
         ], 401); 
     }
 }

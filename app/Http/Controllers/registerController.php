@@ -6,137 +6,61 @@ use Illuminate\Http\Request;
 use App\Models\Utente;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Testing\Fluent\Concerns\Has;
+
 
 class RegisterController extends Controller
 {
     public function register(Request $request)
     {
-        try 
-        {
-            $username = trim($request->input('username'));
-            $email = trim($request->input('email'));
-            $password = $request->input('password');
-            $password_confirm = $request->input('password_confirm');
-
-            if(empty($username)) 
-            {
-                return response()->json([
-                    "success" => false,
-                    "messaggio"=>"Inserire un Username valido."
-                ], 422);
-            }
-            
-            if (strlen($username) < 3) 
-            {
-                return response()->json([
-                    "success" => false,
-                    "messaggio"=>"L'username deve contenere almeno 3 caratteri."
-                ], 422);
-            }
-            
-            if(Utente::where('name', $username)->exists())
-            {
-                return response()->json([
-                    "success" => false,
-                    "messaggio"=>"Username già in uso."
-                ], 422);
-            }
-
-            if(empty($email)) 
-            {
-                return response()->json([
-                    "success" => false,
-                    "messaggio"=>"Inserire un'email valida."
-                ], 422);
-            }
-            
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) 
-            {
-                return response()->json([
-                    "success" => false,
-                    "messaggio"=>"Formato email non valido."
-                ], 422);
-            }
-            
-            if(Utente::where('email', $email)->exists())
-            {
-                return response()->json([
-                    "success" => false,
-                    "messaggio"=>"Email già registrata."
-                ], 422);
-            }
-
-            if(empty($password)) 
-            {
-                return response()->json([
-                    "success" => false,
-                    "messaggio"=>"Inserire una password."
-                ], 422);
-            }
-            
-            if(strlen($password) < 8 || strlen($password) > 16) 
-            {
-                return response()->json([
-                    "success" => false,
-                    "messaggio"=>"La password deve essere tra 8 e 16 caratteri."
-                ], 422);
-            }
-            
-            if(!preg_match('/[A-Z]/', $password)) 
-            {
-                return response()->json([
-                    "success" => false,
-                    "messaggio"=>"La password deve contenere almeno una lettera maiuscola."
-                ], 422);
-            }
-            
-            if(!preg_match('/[0-9]/', $password)) 
-            {
-                return response()->json([
-                    "success" => false,
-                    "messaggio"=>"La password deve contenere almeno un numero."
-                ], 422);
-            }
-            
-            if(!preg_match('/[\@\£\$\!\?]/', $password)) 
-            {
-                return response()->json([
-                    "success" => false,
-                    "messaggio"=>"La password deve contenere almeno un carattere speciale (@, £, $, !, ?)."
-                ], 422);
-            }
-            
-            if($password != $password_confirm) 
-            {
-                return response()->json([
-                    "success" => false,
-                    "messaggio"=>"Le password non coincidono."
-                ], 422);
-            }
+        try {
+            $validated = $request->validate([
+                'username' => 'required|string|min:3|unique:users,name',
+                'email'    => 'required|email|unique:users,email',
+                'password' => [
+                    'required',
+                    'string',
+                    'min:8',
+                    'max:16',
+                    'regex:/[A-Z]/',
+                    'regex:/[0-9]/',
+                    'regex:/[@£$!?]/',
+                    'same:password_confirm'
+                ],
+            ], [
+                'username.unique' => 'Username già in uso.',
+                'email.unique'    => 'Email già registrata.',
+                'password.regex'  => 'La password deve contenere maiuscole, numeri e caratteri speciali.',
+                'password.same'   => 'Le password non coincidono.'
+            ]);
 
             $utente = Utente::create([
-                'name' => $username,
-                'email' => $email,
-                'password' => Hash::make($password),
+                'name'     => $validated['username'],
+                'email'    => $validated['email'],
+                'password' => Hash::make($validated['password']),
             ]);
 
             Auth::login($utente);
 
             return response()->json([
-                "success" => true,
-                "username" => $utente->name,
+                "success"   => true,
+                "username"  => $utente->name,
                 "messaggio" => "Registrazione effettuata con successo!"
             ], 201);
-        } 
-        catch (\Exception $e) 
-        {
-            Log::error("Errore durante la registrazione: " . $e->getMessage());
+
+        } catch (ValidationException $e) {
             return response()->json([
-                "success" => false,
-                "messaggio" => "Errore del server durante la registrazione."
+                "success"   => false,
+                "messaggio" => $e->validator->errors()->first()
+            ], 422);
+
+        } catch (\Exception $e) {
+            Log::error("Errore registrazione: " . $e->getMessage());
+            
+            return response()->json([
+                "success"   => false,
+                "messaggio" => "Errore del server. Controlla i log."
             ], 500);
         }
     }

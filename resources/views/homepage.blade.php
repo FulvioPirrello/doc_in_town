@@ -97,7 +97,7 @@
                 @endif
             </div>
             <div class="paginazione">
-                 {{ $items->withQueryString()->onEachSide(0)->links() }} 
+                {{ $items->withQueryString()->links() }}
             </div>
         </div>
     </section>

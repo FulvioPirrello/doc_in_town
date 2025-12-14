@@ -1,145 +1,113 @@
-document.addEventListener('DOMContentLoaded', () => 
-{
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Seleziona i contenitori di Login e Registrazione
     const loginItem = document.querySelector('.login_item');
     const registerItem = document.querySelector('.register_item');
 
-    if (!loginItem || !registerItem) return; 
+    // Se non ci sono (es. utente già loggato), esce
+    if (!loginItem || !registerItem) return;
 
-    const toggleDropdown = (item) => 
-    {
-        const dropdown = item.querySelector('.auth_dropdown');
-        dropdown.classList.toggle('is-visible');
+    // Funzione per mostrare/nascondere i menu a tendina
+    const toggleDropdown = (activeItem, otherItem) => {
+        // Chiude l'altro se aperto
+        otherItem.querySelector('.auth_dropdown').classList.remove('is-visible');
+        // Apre/Chiude quello cliccato
+        activeItem.querySelector('.auth_dropdown').classList.toggle('is-visible');
     };
 
-    loginItem.querySelector('.login').addEventListener('click', (ev) => 
-    {
-        ev.preventDefault();
-        ev.stopPropagation(); 
-        toggleDropdown(loginItem);
-        registerItem.querySelector('.auth_dropdown').classList.remove('is-visible');
-    });
-
-    registerItem.querySelector('.register').addEventListener('click', (ev) => 
-    {
+    // --- EVENT LISTENERS PER I BOTTONI ---
+    // Usa stopPropagation per evitare che il click si propaghi al document (che chiuderebbe il menu)
+    loginItem.querySelector('.login').addEventListener('click', (ev) => {
         ev.preventDefault();
         ev.stopPropagation();
-        toggleDropdown(registerItem);
-        loginItem.querySelector('.auth_dropdown').classList.remove('is-visible');
+        toggleDropdown(loginItem, registerItem);
     });
 
-    document.addEventListener('click', (ev) => 
-    {
-        if (!ev.target.closest('.login_item') && !ev.target.closest('.register_item')) 
-        {
+    registerItem.querySelector('.register').addEventListener('click', (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        toggleDropdown(registerItem, loginItem);
+    });
+
+    // Chiude i menu se si clicca fuori dalle aree di login/register
+    document.addEventListener('click', (ev) => {
+        if (!ev.target.closest('.login_item') && !ev.target.closest('.register_item')) {
             loginItem.querySelector('.auth_dropdown').classList.remove('is-visible');
             registerItem.querySelector('.auth_dropdown').classList.remove('is-visible');
         }
     });
 
+    // --- LOGICA LOGIN (ASINCRONA) ---
     const loginForm = loginItem.querySelector('form');
-    loginForm.addEventListener('submit', async (ev) => 
-    {
-        ev.preventDefault();
+    loginForm.addEventListener('submit', async (ev) => {
+        ev.preventDefault(); // Ferma il refresh della pagina
         const email = loginForm.querySelector('.email-input').value;
         const password = loginForm.querySelector('.password-input').value;
         const errore = loginForm.querySelector('.form_message');
 
         try {
-            const res = await fetch('/login', 
-            {
+            // Chiamata REST API al server
+            const res = await fetch('/login', {
                 method: 'POST',
-                headers: 
-                {
+                headers: {
                     'Content-Type': 'application/json',
                     'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
-                    'Accept': 'application/json'
+                    'Accept': 'application/json' // Importante per ricevere JSON da Laravel
                 },
                 body: JSON.stringify({ email, password })
             });
 
-            const text = await res.text();
-            console.log("Risposta Server:", text);
+            const data = await res.json(); // Attende la conversione della risposta in JSON
 
-            let data;
-            try {
-                data = JSON.parse(text);
-            } catch (e) {
-                throw new Error("Risposta non valida dal server (vedi console)");
-            }
-
-            if (data.success) 
-            {
+            if (res.ok && data.success) {
                 errore.textContent = 'Login effettuato!';
                 errore.style.color = 'green';
-                location.href = '/';
-            } 
-            else 
-            {
-                errore.textContent = data.messaggio || 'Login fallito';
+                window.location.href = '/'; // Ricarica la home da loggato
+            } else {
+                errore.textContent = data.messaggio || 'Credenziali non valide';
                 errore.style.color = 'red';
             }
         } catch (err) {
-            console.error(err);
+            console.error("Errore Login:", err);
             errore.textContent = 'Errore di connessione';
             errore.style.color = 'red';
         }
     });
-    
 
+    // --- LOGICA REGISTRAZIONE (ASINCRONA) ---
     const registerForm = registerItem.querySelector('form');
-    registerForm.addEventListener('submit', async (ev) => 
-    {
+    registerForm.addEventListener('submit', async (ev) => {
         ev.preventDefault();
         const errore = registerForm.querySelector('.form_message');
-        const formData = new FormData(registerForm);
+        const formData = new FormData(registerForm); // Raccoglie tutti i campi del form automaticamente
 
         try {
-            const res = await fetch('/register', 
-            {
+            const res = await fetch('/register', {
                 method: 'POST',
-                headers: 
-                {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
+                    'Accept': 'application/json'
                 },
-                body: formData,
-                redirect: 'follow'
+                body: formData
             });
 
-            if (res.ok || res.status === 200) 
-            {
-                try {
-                    const data = await res.json();
-                    
-                    if (data.success) 
-                    {
-                        errore.textContent = 'Registrazione completata!';
-                        errore.style.color = 'green';
-                        setTimeout(() => {
-                            location.href = '/';
-                        }, 500);
-                    } 
-                    else 
-                    {
-                        errore.textContent = data.messaggio || 'Registrazione fallita';
-                        errore.style.color = 'red';
-                    }
-                } catch (jsonError) {
-                    errore.textContent = 'Registrazione completata!';
-                    errore.style.color = 'green';
-                    setTimeout(() => {
-                        location.href = '/';
-                    }, 500);
-                }
-            }
-            else 
-            {
-                errore.textContent = 'Errore nella registrazione';
+            const data = await res.json();
+
+            if (res.ok && data.success) {
+                errore.textContent = 'Registrazione completata!';
+                errore.style.color = 'green';
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+            } else {
+                // Visualizza l'errore specifico (es. "Password troppo corta")
+                errore.textContent = data.messaggio || 'Errore nella registrazione';
                 errore.style.color = 'red';
             }
         } catch (error) {
-            errore.textContent = 'Errore di connessione';
+            console.error(error);
+            errore.textContent = 'Errore del server';
             errore.style.color = 'red';
         }
     });
-    
 });
