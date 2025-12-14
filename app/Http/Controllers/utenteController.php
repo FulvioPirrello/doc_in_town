@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Prenotazione;
 use App\Models\Professionista;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-// CORREZIONE: La classe deve iniziare con la Maiuscola
 class UtenteController extends Controller
 {
-    // Mostra il profilo e gli appuntamenti futuri
     public function profilo_utente()
     {
         $user = Auth::user();

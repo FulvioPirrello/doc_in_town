@@ -6,7 +6,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\PrenotazioniController;
-use App\Http\Controllers\UtenteController; 
+use App\Http\Controllers\UtenteController;
 
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
