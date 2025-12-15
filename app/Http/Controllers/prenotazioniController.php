@@ -42,7 +42,7 @@ class PrenotazioniController extends Controller
             $professionista->increment('n_prenotazioni');
         }
 
-        $$user = \App\Models\Utente::find(Auth::id()); 
+        $user = \App\Models\Utente::find(Auth::id()); 
         if($user) 
         {
             $user->increment('n_prenotazioni');

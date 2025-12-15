@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => 
+{
     
     const filterContainers = document.querySelectorAll('.filter-dropdown-container');
 

@@ -1,9 +1,7 @@
-document.addEventListener("DOMContentLoaded", function() {
-    
+document.addEventListener("DOMContentLoaded", function() 
+{    
     const mapElement = document.querySelector('.mappa');
     
-    if (!mapElement) return;
-
     const studio = mapElement.dataset.address;
     const city = mapElement.dataset.city;
     const name = mapElement.dataset.name;
@@ -14,7 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch('https://nominatim.openstreetmap.org/search?format=json&q=' + encodeURIComponent(fullAddress))
         .then(response => response.json())
         .then(data => {
-            if (data.length > 0) {
+            if (data.length > 0) 
+            {
                 var lat = data[0].lat;
                 var lon = data[0].lon;
 

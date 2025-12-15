@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/maps.css') }}">
     <script src="{{ asset('js/auth.js') }}"></script>
     <script src="{{ asset('js/homepage.js') }}"></script>
-    <script src="{{ asset('js/doc.js') }}"></script>
+    <script src="{{ asset('js/mappa.js') }}"></script>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
