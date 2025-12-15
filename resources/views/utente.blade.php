@@ -23,6 +23,7 @@
                     <p><strong>Nome:</strong> {{ $user->name }}</p>
                     <p><strong>Email:</strong> {{ $user->email }}</p>
                     <p><strong>Iscritto dal:</strong> {{ $user->created_at->format('d/m/Y') }}</p>
+                    <a href="{{ route('modifica_profilo') }}">Modifica dati profilo</a>
                 </div>
             </div>
 

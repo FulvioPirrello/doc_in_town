@@ -30,6 +30,20 @@ Route::post(
     'crea_prenotazione'])
     ->name('aggiungi_professionista');
 
+Route::post(
+    '/profilo/modifica', 
+    [UtenteController::class, 
+    'aggiorna_dati_utente']) 
+    ->name('aggiorna_profilo')
+    ->middleware('auth');
+
+Route::get(
+    '/profilo/modifica', 
+    [UtenteController::class, 
+    'modifica_utente']) 
+    ->name('modifica_profilo')
+    ->middleware('auth');
+    
 Route::get(
     '/', 
     [ProfessionistaController::class, 

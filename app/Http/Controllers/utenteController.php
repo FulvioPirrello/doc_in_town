@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Prenotazione;
 use App\Models\Professionista;
+use App\Models\Utente;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UtenteController extends Controller
 {
@@ -51,5 +54,33 @@ class UtenteController extends Controller
         }
 
         return back()->with('success', 'Appuntamento cancellato con successo.');
+    }
+    
+    public function modifica_utente()
+    {
+        $utente = Auth::user();
+        return view('modifica_profilo', compact('utente'));
+    }
+
+    public function aggiorna_dati_utente(Request $request)
+    {
+       $utente = Utente::find(Auth::id()); 
+
+        $request->validate([
+            'username' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $utente->id, 
+            'password' => 'nullable|min:8|confirmed',
+        ]);
+
+        $utente->name = $request->input('username');
+        $utente->email = $request->input('email');
+
+        if ($request->filled('password')) {
+            $utente->password = Hash::make($request->input('password'));
+        }
+
+        $utente->save();
+
+        return redirect()->route('profilo_utente')->with('success', 'Profilo aggiornato con successo!');
     }
 }
