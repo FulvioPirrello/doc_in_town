@@ -7,7 +7,7 @@ use App\Models\Specializzazione;
 use App\Models\Prenotazione;
 use Illuminate\Http\Request;
 
-class ItemController extends Controller
+class ProfessionistaController extends Controller
 {
     public function professionisti(Request $request) 
     {
