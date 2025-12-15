@@ -11,11 +11,11 @@ class ProfessionistaController extends Controller
 {
     public function professionisti(Request $request) 
     {
-        $searchText = $request->input('search'); 
-        $searchCitta = $request->input('citta');
-        $searchSpec = $request->input('specializzazione');
+        $testo_cerca = $request->input('search'); 
+        $filtro_citta = $request->input('citta');
+        $filtro_spec = $request->input('specializzazione');
 
-        $query = Professionista::leftJoin(
+        $medici_db = Professionista::leftJoin(
             'specializzazioni', 
             'professionisti.specializzazione', 
             '=', 
@@ -24,68 +24,80 @@ class ProfessionistaController extends Controller
                 'professionisti.*', 
                 'specializzazioni.pic');
 
-        if ($searchText) 
+        if ($testo_cerca) 
         {
-            $query->where(function($q) use ($searchText) 
+            $medici_db->where(function($q) use ($testo_cerca) 
             {
                 $q->where(
                     'professionisti.nome', 
                     'LIKE', 
-                    "%{$searchText}%")
+                    "%{$testo_cerca}%")
+
                   ->orWhere(
                     'professionisti.specializzazione', 
                     'LIKE', 
-                    "%{$searchText}%")
+                    "%{$testo_cerca}%")
+
                   ->orWhere(
                     'professionisti.citta', 
                     'LIKE', 
-                    "%{$searchText}%");
+                    "%{$testo_cerca}%");
             });
         }
 
-        if ($searchCitta) 
+        if ($filtro_citta) 
         {
-            $query->where('professionisti.citta', $searchCitta);
+            $medici_db->where(
+                'professionisti.citta', 
+                $filtro_citta);
         }
 
-        if ($searchSpec) 
+        if ($filtro_spec) 
         {
-            $query->where('professionisti.specializzazione', $searchSpec);
+            $medici_db->where(
+                'professionisti.specializzazione', 
+                $filtro_spec);
         }
 
-        $items = $query->paginate(18);
+        $medici = $medici_db->paginate(18);
         
-        $specializzazioni = Specializzazione::orderBy('tipo', 'asc')->get();
+        $lista_specializzazioni = Specializzazione::orderBy('tipo', 'asc')->get();
+        $lista_citta = Professionista::select('citta')
+        ->distinct()
+        ->orderBy('citta', 'asc')
+        ->get();
 
-        $citta = Professionista::select('citta')->distinct()->orderBy('citta', 'asc')->get();
-
-        return view('homepage', compact(
-            'items', 
-            'specializzazioni', 
-            'citta'));
+        return view('homepage', [
+            'medici' => $medici,
+            'specializzazioni' => $lista_specializzazioni, 
+            'citta' => $lista_citta
+        ]);
     }
 
     public function show($id)
     {
-        $item = Professionista::leftJoin(
-            'specializzazioni',
+        $dottore = Professionista::leftJoin(
+            'specializzazioni', 
             'professionisti.specializzazione', 
             '=', 
             'specializzazioni.tipo')
-            ->select('professionisti.*', 
-            'specializzazioni.pic')
+
+            ->select(
+                'professionisti.*', 
+                'specializzazioni.pic')
+                
             ->where('professionisti.id', $id)
+            
             ->firstOrFail();
 
-        $prenotazioni = Prenotazione::where('professionista_id', $id)
-            ->where('data_visita', 
-            '>=', now()->toDateString())
-            ->get(['data_visita', 
-            'ora_visita']);
+        $appuntamenti = Prenotazione::where('professionista_id', $id)
+            ->where('data_visita', '>=', now()
+            ->toDateString())
+            ->get(['data_visita', 'ora_visita']);
 
-        return view(
-            'doc', compact(
-            'item', 
-            'prenotazioni'));
+        return view('doc', [
+            'dottore' => $dottore,
+            'prenotazioni' => $appuntamenti
+        ]);
     }
 }

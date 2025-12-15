@@ -20,12 +20,12 @@ class PrenotazioniController extends Controller
             'ora'  => 'required'
         ]);
 
-        $giaPrenotato = Prenotazione::where('professionista_id', $id)
+        $prenotato = Prenotazione::where('professionista_id', $id)
             ->where('data_visita', $request->data)
             ->where('ora_visita', $request->ora)
             ->exists();
 
-        if ($giaPrenotato) {
+        if ($prenotato) {
             return back()->with('error', 'Questo orario è già occupato. Scegli un altro orario.');
         }
 

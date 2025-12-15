@@ -63,30 +63,30 @@
                 </div>
 
             </div>
-            <div class="box_doc"> 
-                @if($items->isEmpty())
+           <div class="box_doc"> 
+                @if($medici->isEmpty())
                     <div class="no_results">
                         <h3>Nessun medico trovato.</h3>
                         <p>Prova a modificare i filtri o la ricerca.</p>
                         <a href="/" >Resetta filtri</a>
                     </div>
                 @else
-                    @foreach($items as $item)
-                        <a class="doc_item" href="{{ route('mostra_professionista', $item->id) }}">
+                    @foreach($medici as $medico)
+                        <a class="doc_item" href="{{ route('mostra_professionista', $medico->id) }}">
                             <div class="doc">
                                 <div class="doc_info">
                                     <div class="nome">
-                                        {{ $item->titolo }} {{ $item->nome }} 
+                                        {{ $medico->titolo }} {{ $medico->nome }} 
                                     </div>
                                     <div class="categoria">
-                                        {{ $item->specializzazione }}
-                                        @if($item->pic)
-                                            <img src="{{ asset('img/' . $item->pic) }}" alt="icon" class="spec_icon">
+                                        {{ $medico->specializzazione }}
+                                        @if($medico->pic)
+                                            <img src="{{ asset('img/' . $medico->pic) }}" alt="icon" class="spec_icon">
                                         @endif
                                     </div>
                                     <div class="sede">
-                                        {{ $item->sede_studio }}
-                                        <div class="citta">{{ $item->citta }}</div>
+                                        {{ $medico->sede_studio }}
+                                        <div class="citta">{{ $medico->citta }}</div>
                                         <div class="mappa" id="maps"></div>
                                     </div>
                                 </div>
@@ -97,7 +97,7 @@
                 @endif
             </div>
             <div class="paginazione">
-                {{ $items->withQueryString()->links() }}
+                {{ $medici->withQueryString()->links() }}
             </div>
         </div>
     </section>

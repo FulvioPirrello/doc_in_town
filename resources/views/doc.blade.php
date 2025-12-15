@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>DOC IN TOWN - {{ $item->nome }}</title>
+    <title>DOC IN TOWN - {{ $dottore->nome }}</title>
     <link rel="stylesheet" href="{{ asset('css/homepage.css') }}">
     <link rel="stylesheet" href="{{ asset('css/doc.css') }}">
     <link rel="stylesheet" href="{{ asset('css/maps.css') }}">
@@ -20,22 +20,22 @@
     <section>
         <div class="dettagli_doc">
             
-            <div class="colonna-sx">
+            <div class="colonna_sx">
                 
                 <div class="doc_info_page">
                     <div class="nome">
-                        {{ $item->titolo }} {{ $item->nome }} 
+                        {{ $dottore->titolo }} {{ $dottore->nome }} 
                     </div>
                     
                     <div class="categoria">
-                        {{ $item->specializzazione }}
-                        @if($item->pic)
-                            <img src="{{ asset('img/'.$item->pic) }}" alt="icon" class="spec_icon">
+                        {{ $dottore->specializzazione }}
+                        @if($dottore->pic)
+                            <img src="{{ asset('img/'.$dottore->pic) }}" alt="icon" class="spec_icon">
                         @endif
                     </div>
                 </div> 
 
-                <div class="booking-box">
+                <div class="box_appuntamento">
 
                     @if(session('success'))
                         <div style="background: #d4edda; color: #155724; padding: 10px; margin-bottom: 15px; border-radius: 5px;">
@@ -49,16 +49,16 @@
                         </div>
                     @endif
 
-                    <form action="{{ route('aggiungi_professionista', $item->id) }}" method="POST">
+                    <form action="{{ route('aggiungi_professionista', $dottore->id) }}" method="POST">
                         @csrf
-                        <div class="form-group">
-                            <label class="form-label">Data:</label>
-                            <input type="date" name="data" min="{{ date('Y-m-d') }}" class="form-input" required>
+                        <div class="box_form">
+                            <label class="label_orari">Data:</label>
+                            <input type="date" name="data" min="{{ date('Y-m-d') }}" class="opzioni" required>
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Orario:</label>
-                            <select name="ora" class="form-input" required>
+                        <div class="box_form">
+                            <label class="label_orari">Orario:</label>
+                            <select name="ora" class="opzioni" required>
                                 <option value="">-- Seleziona orario --</option>
                                 <option disabled>Mattina</option>
                                 <option value="09:00">09:00 - 09:30</option>
@@ -84,7 +84,7 @@
                         </div>
                         
                         <textarea class="note_input" name="note" placeholder="Note per l'appuntamento" maxlength="250"></textarea>
-                        <button type="submit" class="btn-prenota">
+                        <button type="submit" class="btn_prenotazione">
                             CONFERMA PRENOTAZIONE
                         </button>
                     </form>
@@ -92,12 +92,12 @@
 
             </div>
 
-            <div class="colonna-dx">
-                <div id="map-{{ $item->id }}" 
+            <div class="colonna_dx">
+                <div id="map-{{ $dottore->id }}" 
                     class="mappa" 
-                    data-address="{{ $item->sede_studio }}"
-                    data-city="{{ $item->citta }}"
-                    data-name="{{ $item->nome }}">
+                    data-address="{{ $dottore->sede_studio }}"
+                    data-city="{{ $dottore->citta }}"
+                    data-name="{{ $dottore->nome }}">
                 </div>
             </div>
         </div>

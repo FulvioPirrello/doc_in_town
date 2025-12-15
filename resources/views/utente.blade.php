@@ -48,7 +48,7 @@
                                     <h3>Dott. {{ $appuntamento->nome_medico }}</h3>
                                     <p class="specializzazione">{{ $appuntamento->specializzazione }}</p>
                                     <p class="indirizzo">
-                                        📍 {{ $appuntamento->sede_studio }}, {{ $appuntamento->citta }}
+                                         {{ $appuntamento->sede_studio }}, {{ $appuntamento->citta }}
                                     </p>
                                     
                                     @if($appuntamento->note)

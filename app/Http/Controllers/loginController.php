@@ -18,9 +18,9 @@ class LoginController extends Controller
             'password.required' => 'Inserisci la password.'
         ]);
 
-        $loginType = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+        $tipo_login = filter_var($request->input('email'), FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
         
-        if (Auth::attempt([$loginType => $request->input('email'), 'password' => $request->input('password')])) 
+        if (Auth::attempt([$tipo_login => $request->input('email'), 'password' => $request->input('password')])) 
         {
             $request->session()->regenerate();
 
