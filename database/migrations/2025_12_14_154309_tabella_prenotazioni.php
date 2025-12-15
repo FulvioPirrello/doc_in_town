@@ -14,13 +14,11 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->timestamp('email_verified_at')->nullable();
-            // Ecco la colonna che ti dava errore, ora inclusa correttamente
             $table->integer('n_prenotazioni')->default(0)->nullable(); 
             $table->rememberToken();
             $table->timestamps();
         });
 
-        // Tabelle di sistema standard di Laravel (lasciale, servono al framework)
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();
             $table->string('token');
