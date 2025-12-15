@@ -1,25 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => 
 {
-    
+    // --- GESTIONE FILTRI (Codice esistente) ---
     const filterContainers = document.querySelectorAll('.filter-dropdown-container');
 
     filterContainers.forEach(container => {
         const btn = container.querySelector('.hamburger-btn');
         const menu = container.querySelector('.filter-menu');
 
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            
-            closeAllMenus(container);
+        if (btn && menu) { // Controllo di sicurezza
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                
+                closeAllMenus(container);
 
-            const isOpen = menu.classList.contains('is-open');
-            
-            if (isOpen) {
-                closeMenu(container);
-            } else {
-                openMenu(container);
-            }
-        });
+                const isOpen = menu.classList.contains('is-open');
+                
+                if (isOpen) {
+                    closeMenu(container);
+                } else {
+                    openMenu(container);
+                }
+            });
+        }
     });
 
     document.addEventListener('click', (event) => {
@@ -47,4 +49,16 @@ document.addEventListener("DOMContentLoaded", () =>
             }
         });
     }
+
+    // --- GESTIONE MENU MOBILE NAVBAR (Corretto) ---
+    const hamburgerBtn = document.getElementById('mobile-menu-btn');
+    const mainMenu = document.getElementById('main-menu');
+
+    if (hamburgerBtn && mainMenu) {
+        hamburgerBtn.addEventListener('click', () => {
+            hamburgerBtn.classList.toggle('is-active');
+            mainMenu.classList.toggle('active');
+        });
+    }
+
 });

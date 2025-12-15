@@ -539,6 +539,71 @@ footer
     justify-content: center;
     align-items: center;
 }
+/* Stile del bottone Hamburger (nascosto su Desktop) */
+.hamburger-nav {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 2000;
+}
 
+.hamburger-nav span {
+    width: 100%;
+    height: 3px;
+    background-color: white; /* Cambia colore se serve */
+    border-radius: 2px;
+}
+
+/* MEDIA QUERY MOBILE */
+@media (max-width: 768px) {
+    /* Mostra hamburger */
+    .hamburger-nav {
+        display: flex;
+        margin-left: auto; /* Lo spinge a destra */
+    }
+
+    /* Nascondi il menu normale di destra */
+    .right_item {
+        display: none; /* NASCOSTO DI DEFAULT */
+        position: absolute;
+        top: 100%; /* Subito sotto la navbar */
+        left: 0;
+        width: 100%;
+        background-color: rgb(60, 140, 189); /* Colore navbar */
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+        gap: 15px;
+        z-index: 1000;
+        box-shadow: 0 5px 5px rgba(0,0,0,0.2);
+    }
+
+    /* Classe che il JS aggiungerà per mostrare il menu */
+    .right_item.active {
+        display: flex; 
+    }
+
+    /* Adattamento dropdown login/register su mobile */
+    .auth_dropdown {
+        position: static; /* Non fluttuante su mobile */
+        width: 90%;
+        margin-top: 10px;
+        box-shadow: none;
+        background: rgba(255,255,255,0.1);
+    }
+
+    /* Adattamento form login/register */
+    .login_item, .register_item, .user_item {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
 
 
