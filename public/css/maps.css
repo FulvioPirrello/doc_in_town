@@ -6,3 +6,11 @@
 .leaflet-bottom, .leaflet-right {
     display: none;
 }
+
+@media (max-width: 900px) 
+{
+    .mappa
+    {
+        width: 40vh;
+    }
+}

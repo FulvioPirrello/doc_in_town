@@ -9,16 +9,19 @@
     box-sizing: border-box;
 }
 
-.colonna_sx 
+/* CORRETTO: colonna-sx (con il trattino, non underscore) */
+.colonna-sx 
 {
     flex: 1;
-    max-width: 50%;
+    /* max-width: 50%;  <-- Rimosso per lasciare che flex gestisca lo spazio */
 }
 
-.colonna_dx 
+/* CORRETTO: colonna-dx (con il trattino, non underscore) */
+.colonna-dx 
 {
     flex: 1;
-    height: 500px;
+    height: 500px; /* Altezza fissa su desktop */
+    width: 100%;   /* Assicura che riempia il contenitore flex */
 }
 
 .nome 
@@ -27,6 +30,7 @@
     margin-bottom: 10px;
     font-weight: bold;
 }
+
 .note_input
 {
     margin-bottom: 20px;
@@ -36,7 +40,10 @@
     width: 100%; 
     box-sizing: border-box; 
     padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
+
 .categoria 
 {
     display: flex;
@@ -105,46 +112,31 @@
     background-color: #1a252f;
 }
 
+/* Stile della mappa */
 .mappa 
 {
     width: 100%;
-    height: 100%;
+    height: 100%; /* Prende l'altezza del genitore (.colonna-dx) */
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 1;
 }
 
-@media (max-width: 768px) {
-    .dettagli_doc {
+@media (max-width: 900px) 
+{
+    .dettagli_doc 
+    {
         flex-direction: column;
         padding: 20px;
         gap: 30px;
     }
-    .mappa
+    .colonna_sx 
     {
-        height: 40%;
-        width: 60%;
+        width: 100%;
+        max-width: 100%;
     }
-    .colonna_dx
+    .nome 
     {
-        width: 40vw;
-    }
-    .colonna_sx {
-        max-width: 100%;
-        width: 100%;
-        flex: none;
-    }
-
-    .colonna_dx {
-        max-width: 100%;
-        width: 100%;
-        height: 400px; /* Altezza fissa per la mappa su mobile */
-        flex: none;
-    }
-
-    .nome {
         font-size: 2rem;
-        text-align: center;
     }
 }
-
