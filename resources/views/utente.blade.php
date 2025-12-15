@@ -57,7 +57,6 @@
                                         </div>
                                     @endif
 
-                                    <!-- NUOVO PULSANTE CANCELLA -->
                                     <form action="{{ route('cancella_prenotazione', $appuntamento->id) }}" method="POST" style="margin-top: 15px;" onsubmit="return confirm('Sei sicuro di voler cancellare questo appuntamento?');">
                                         @csrf
                                         @method('DELETE')

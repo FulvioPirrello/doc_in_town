@@ -15,16 +15,31 @@ class ProfessionistaController extends Controller
         $searchCitta = $request->input('citta');
         $searchSpec = $request->input('specializzazione');
 
-        $query = Professionista::leftJoin('specializzazioni', 'professionisti.specializzazione', '=', 'specializzazioni.tipo')
-            ->select('professionisti.*', 'specializzazioni.pic');
+        $query = Professionista::leftJoin(
+            'specializzazioni', 
+            'professionisti.specializzazione', 
+            '=', 
+            'specializzazioni.tipo')
+            ->select(
+                'professionisti.*', 
+                'specializzazioni.pic');
 
         if ($searchText) 
         {
             $query->where(function($q) use ($searchText) 
             {
-                $q->where('professionisti.nome', 'LIKE', "%{$searchText}%")
-                  ->orWhere('professionisti.specializzazione', 'LIKE', "%{$searchText}%")
-                  ->orWhere('professionisti.citta', 'LIKE', "%{$searchText}%");
+                $q->where(
+                    'professionisti.nome', 
+                    'LIKE', 
+                    "%{$searchText}%")
+                  ->orWhere(
+                    'professionisti.specializzazione', 
+                    'LIKE', 
+                    "%{$searchText}%")
+                  ->orWhere(
+                    'professionisti.citta', 
+                    'LIKE', 
+                    "%{$searchText}%");
             });
         }
 
@@ -44,20 +59,33 @@ class ProfessionistaController extends Controller
 
         $citta = Professionista::select('citta')->distinct()->orderBy('citta', 'asc')->get();
 
-        return view('homepage', compact('items', 'specializzazioni', 'citta'));
+        return view('homepage', compact(
+            'items', 
+            'specializzazioni', 
+            'citta'));
     }
 
     public function show($id)
     {
-        $item = Professionista::leftJoin('specializzazioni', 'professionisti.specializzazione', '=', 'specializzazioni.tipo')
-            ->select('professionisti.*', 'specializzazioni.pic')
+        $item = Professionista::leftJoin(
+            'specializzazioni',
+            'professionisti.specializzazione', 
+            '=', 
+            'specializzazioni.tipo')
+            ->select('professionisti.*', 
+            'specializzazioni.pic')
             ->where('professionisti.id', $id)
             ->firstOrFail();
 
         $prenotazioni = Prenotazione::where('professionista_id', $id)
-            ->where('data_visita', '>=', now()->toDateString())
-            ->get(['data_visita', 'ora_visita']);
+            ->where('data_visita', 
+            '>=', now()->toDateString())
+            ->get(['data_visita', 
+            'ora_visita']);
 
-        return view('doc', compact('item', 'prenotazioni'));
+        return view(
+            'doc', compact(
+            'item', 
+            'prenotazioni'));
     }
 }
