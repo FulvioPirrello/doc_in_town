@@ -12,7 +12,6 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
 
-Route::get('/', [ItemController::class, 'professionisti'])->name('login');
 Route::get('/professionista/{slug}', [ItemController::class, 'show'])->name('mostra_professionista');
 Route::post('/prenota/{id}', [PrenotazioniController::class, 'crea_prenotazione'])->name('aggiungi_professionista');
 
