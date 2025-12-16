@@ -11,7 +11,8 @@ class PrenotazioniController extends Controller
 {
     public function crea_prenotazione(Request $request, $id)
     {
-        if (!Auth::check()) {
+        if (!Auth::check()) 
+        {
             return back()->with('error', 'Effettua il login per prenotare una visita.');
         }
 
@@ -38,7 +39,8 @@ class PrenotazioniController extends Controller
         ]);
 
         $professionista = Professionista::find($id);
-        if ($professionista) {
+        if ($professionista) 
+        {
             $professionista->increment('n_prenotazioni');
         }
 

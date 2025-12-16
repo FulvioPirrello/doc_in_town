@@ -16,7 +16,10 @@ class UtenteController extends Controller
         $user = Auth::user();
 
         $appuntamenti = Prenotazione::where('user_id', $user->id)
-            ->join('professionisti', 'prenotazioni.professionista_id', '=', 'professionisti.id')
+            ->join('professionisti', 
+            'prenotazioni.professionista_id', 
+            '=', 
+            'professionisti.id')
             ->select(
                 'prenotazioni.*',
                 'professionisti.nome as nome_medico',
@@ -28,7 +31,9 @@ class UtenteController extends Controller
             ->orderBy('ora_visita', 'asc')
             ->get();
 
-        return view('utente', compact('user', 'appuntamenti'));
+        return view('utente', [
+            'user' => $user,
+            'appuntamenti' => $appuntamenti]);    
     }
 
     public function cancella_prenotazione($id)
@@ -37,12 +42,11 @@ class UtenteController extends Controller
             ->where('user_id', Auth::id())
             ->firstOrFail();
 
-        $profId = $prenotazione->professionista_id;
-        $userId = $prenotazione->user_id;
+        $doc_id = $prenotazione->professionista_id;
 
         $prenotazione->delete();
 
-        $professionista = Professionista::find($profId);
+        $professionista = Professionista::find($doc_id);
         if ($professionista && $professionista->n_prenotazioni > 0) {
             $professionista->decrement('n_prenotazioni');
         }
@@ -59,7 +63,8 @@ class UtenteController extends Controller
     public function modifica_utente()
     {
         $utente = Auth::user();
-        return view('modifica_profilo', compact('utente'));
+        return view('modifica_profilo', [
+    '               utente' => $utente]);
     }
 
     public function aggiorna_dati_utente(Request $request)
@@ -69,18 +74,27 @@ class UtenteController extends Controller
         $request->validate([
             'username' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $utente->id, 
-            'password' => 'nullable|min:8|confirmed',
-        ]);
+            'password' => [ 
+                            'nullable',
+                            'min:8',
+                            'max:16',
+                            'confirmed',
+                            'regex:/[A-Z]/', 
+                            'regex:/[0-9]/',
+                            'regex:/[@£$!?]/', ],]);
 
         $utente->name = $request->input('username');
         $utente->email = $request->input('email');
 
-        if ($request->filled('password')) {
+        if ($request->filled('password')) 
+        {
             $utente->password = Hash::make($request->input('password'));
         }
 
         $utente->save();
 
-        return redirect()->route('profilo_utente')->with('success', 'Profilo aggiornato con successo!');
+        return redirect()
+        ->route('profilo_utente')
+        ->with('success', 'Profilo aggiornato con successo!');
     }
 }

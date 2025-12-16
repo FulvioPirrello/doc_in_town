@@ -1,48 +1,48 @@
 
 document.addEventListener('DOMContentLoaded', () => 
 {
-    const loginItem = document.querySelector('.login_item');
-    const registerItem = document.querySelector('.register_item');
+    const login = document.querySelector('.login_item');
+    const register = document.querySelector('.register_item');
 
-    if (!loginItem || !registerItem) return;
+    if (!login || !register) return;
 
-    const toggleDropdown = (activeItem, otherItem) => 
+    const chiudi_menu = (menu_aperto, altri_menu) => 
     {
-        otherItem.querySelector('.auth_dropdown').classList.remove('is-visible');
-        activeItem.querySelector('.auth_dropdown').classList.toggle('is-visible');
+        altri_menu.querySelector('.auth_dropdown').classList.remove('is-visible');
+        menu_aperto.querySelector('.auth_dropdown').classList.toggle('is-visible');
     };
 
    
-    loginItem.querySelector('.login').addEventListener('click', (ev) => 
+    login.querySelector('.login').addEventListener('click', (ev) => 
     {
         ev.preventDefault();
         ev.stopPropagation();
-        toggleDropdown(loginItem, registerItem);
+        chiudi_menu(login, register);
     });
 
-    registerItem.querySelector('.register').addEventListener('click', (ev) => 
+    register.querySelector('.register').addEventListener('click', (ev) => 
     {
         ev.preventDefault();
         ev.stopPropagation();
-        toggleDropdown(registerItem, loginItem);
+        chiudi_menu(register, login);
     });
 
     document.addEventListener('click', (ev) => 
     {
         if (!ev.target.closest('.login_item') && !ev.target.closest('.register_item')) 
         {
-            loginItem.querySelector('.auth_dropdown').classList.remove('is-visible');
-            registerItem.querySelector('.auth_dropdown').classList.remove('is-visible');
+            login.querySelector('.auth_dropdown').classList.remove('is-visible');
+            register.querySelector('.auth_dropdown').classList.remove('is-visible');
         }
     });
 
-    const loginForm = loginItem.querySelector('form');
-    loginForm.addEventListener('submit', async (ev) => 
+    const form_login = login.querySelector('form');
+    form_login.addEventListener('submit', async (ev) => 
     {
         ev.preventDefault();
-        const email = loginForm.querySelector('.email-input').value;
-        const password = loginForm.querySelector('.password-input').value;
-        const errore = loginForm.querySelector('.form_message');
+        const email = form_login.querySelector('.email-input').value;
+        const password = form_login.querySelector('.password-input').value;
+        const errore = form_login.querySelector('.form_message');
 
         try 
         {
@@ -60,50 +60,66 @@ document.addEventListener('DOMContentLoaded', () =>
 
             const data = await res.json();
 
-            if (res.ok && data.success) {
-                errore.textContent = 'Login effettuato!';
+            if (res.ok && data.success) 
+            {
+                errore.textContent = 'Login completato!';
                 errore.style.color = 'green';
-                window.location.href = '/';
-            } else {
+                setTimeout(() => 
+                {
+                    window.location.href = '/';
+                }, 1000);
+            } 
+            else 
+            {
                 errore.textContent = data.messaggio || 'Credenziali non valide';
                 errore.style.color = 'red';
             }
-        } catch (err) {
-            console.error("Errore Login:", err);
-            errore.textContent = 'Errore di connessione';
-            errore.style.color = 'red';
+        } 
+        catch (error) 
+        {
+            console.error("Errore Login:", error);
         }
     });
 
-    const registerForm = registerItem.querySelector('form');
-    registerForm.addEventListener('submit', async (ev) => {
+    const form_register = register.querySelector('form');
+    
+    form_register.addEventListener('submit', async (ev) => 
+    {
         ev.preventDefault();
-        const errore = registerForm.querySelector('.form_message');
-        const formData = new FormData(registerForm);
+        const errore = form_register.querySelector('.form_message');
+        const form_data = new FormData(form_register);
 
-        try {
-            const res = await fetch('/register', {
+        try 
+        {
+            const res = await fetch('/register', 
+            {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name=csrf-token]').content,
                     'Accept': 'application/json'
                 },
-                body: formData
+                body: form_data
             });
 
             const data = await res.json();
 
-            if (res.ok && data.success) {
-                errore.textContent = 'Registrazione completata!';
+            if (res.ok && data.success) 
+            {
+                errore.textContent = 'Registrazione effettuata!';
                 errore.style.color = 'green';
-                setTimeout(() => {
+                setTimeout(() => 
+                {
                     window.location.href = '/';
                 }, 1000);
-            } else {
+            } 
+            else 
+                {
                 errore.textContent = data.messaggio || 'Errore nella registrazione';
                 errore.style.color = 'red';
             }
-        } catch (error) {
+        } 
+        catch (error) 
+        {
             console.error(error);
             errore.textContent = 'Errore del server';
             errore.style.color = 'red';

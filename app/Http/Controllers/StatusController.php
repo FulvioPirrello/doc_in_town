@@ -10,7 +10,9 @@ class StatusController extends Controller
     {
         if (!Auth::check()) 
         {
-            return response()->json(['logged_in' => false], 200);
+            return response()
+            ->json(['logged_in' => false]
+            , 200);
         }
 
         $user = Auth::user();

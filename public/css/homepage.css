@@ -1,8 +1,10 @@
-*
+* 
 {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
+
 a
 {
     text-decoration: none;
@@ -116,12 +118,14 @@ button
     flex-wrap: nowrap;
     white-space: nowrap;
 }
-.user_item form {
+.user_item form 
+{
     display: inline-flex;
     margin: 0;
     padding: 0;
 }
-.user_item .logout_button {
+.user_item .logout_button 
+{
     background: transparent;
     border: none;
     color: white;
@@ -152,13 +156,15 @@ a {
 }
 
 .p-menu1,
-.p-menu2 {
+.p-menu2 
+{
    height: auto;
    position: relative;
    display: inline-block;
 }
 
-.hamburger1 {
+.hamburger1 
+{
   height: 45px;
   margin: 10px;
   display: -ms-grid;
@@ -168,7 +174,8 @@ a {
   z-index: 120;
 }
 
-.hamburger1 div {
+.hamburger1 div 
+{
   background-color: rgb(61, 61, 61);
   position: relative;
   width: 40px;
@@ -182,30 +189,33 @@ a {
   display: none;
 }
 
-#toggle1:checked + .hamburger1 .top {
+#toggle1:checked + .hamburger1 .top 
+{
   -webkit-transform: rotate(-45deg);
-          transform: rotate(-45deg);
+  transform: rotate(-45deg);
   margin-top: 22.5px;
 }
 
-#toggle1:checked + .hamburger1 .meat {
+#toggle1:checked + .hamburger1 .meat 
+{
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
   margin-top: -5px;
 }
 
-#toggle1:checked + .hamburger1 .bottom {
+#toggle1:checked + .hamburger1 .bottom 
+{
   -webkit-transform: scale(0);
           transform: scale(0);
 }
 
-#toggle1:checked ~ .menu1 {
+#toggle1:checked ~ .menu1 
+{
   height: 340px;
 }
 
-
-
-.menu1 {
+.menu1 
+{
   width: 200px; 
   background-color: #02173F;
   margin: 0;
@@ -217,7 +227,6 @@ a {
   list-style: none;
   clear: both;
   text-align: center;
-  
   position: absolute; 
   top: 60px;
   left: 0;
@@ -228,50 +237,60 @@ a {
   border-radius: 0 0 10px 10px; 
 }
 
-.menu1 a:first-child {
+.menu1 a:first-child 
+{
   margin-top: 40px;
 }
 
-.menu1 a:last-child {
+.menu1 a:last-child 
+{
   margin-bottom: 40px;
 }
 
-.link1 {
+.link1 
+{
   width: 100%;
   margin: 0;
   padding: 10px 0;
   font: 700 20px 'Oswald', sans-serif;
 }
 
-.link1:hover {
+.link1:hover 
+{
   background-color: #fff;
   color: rgb(61, 61, 61);
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
-.menu-checkbox {
+.menu-checkbox 
+{
   display: none;
 }
 
-.menu-checkbox:checked + .hamburger1 .top {
+.menu-checkbox:checked + .hamburger1 .top 
+{
   transform: rotate(-45deg);
   margin-top: 22.5px;
 }
 
-.menu-checkbox:checked + .hamburger1 .meat {
+.menu-checkbox:checked + .hamburger1 .meat 
+{
   transform: rotate(45deg);
   margin-top: -5px;
 }
 
-.menu-checkbox:checked + .hamburger1 .bottom {
+.menu-checkbox:checked + .hamburger1 .bottom 
+{
   transform: scale(0);
 }
 
-.menu-checkbox:checked ~ .menu1 {
+.menu-checkbox:checked ~ .menu1 
+{
   height: 340px;
 }
 
-.p-menu2 .menu1 {
+.p-menu2 .menu1 
+{
     left: auto;
     right: 0;
 }
@@ -335,14 +354,16 @@ a {
     display: flex;
     align-items: flex-start;
 }
-.nome {
+.nome 
+{
     display: flex;
     justify-content: flex-start;
     align-items: center;
     width: 100%;
 }
 
-.categoria {
+.categoria 
+{
     display: flex;
     justify-content: flex-start; 
     width: 100%;
@@ -365,8 +386,12 @@ footer
 }
 @media (max-width: 700px) 
 {
-    .nav_item { padding: 0 24px; }
-    .auth_dropdown {
+    .nav_item 
+    {
+        padding: 0 24px; 
+    }
+    .auth_dropdown 
+    {
         right: 0;
         left: auto;
         max-width: 90vw;
@@ -398,7 +423,8 @@ footer
     cursor: pointer;
     min-width: 40px;
 }
-.paginazione span {
+.paginazione span 
+{
     align-items: center;
     justify-content: center;
     padding: 8px 14px;
@@ -443,12 +469,14 @@ footer
     margin-left: 10px;
 }
 
-.filter-dropdown-container {
+.filter-dropdown-container 
+{
     position: relative;
     display: inline-block;
 }
 
-.hamburger-btn {
+.hamburger-btn 
+{
     height: 45px;
     width: 60px;
     margin: 10px;
@@ -463,26 +491,31 @@ footer
     z-index: 120;
 }
 
-.hamburger-btn div {
+.hamburger-btn div 
+{
     background-color: rgb(61, 61, 61);
     width: 40px;
     height: 5px;
     transition: all 0.3s ease-in-out;
 }
 
-.hamburger-btn.is-active .top {
+.hamburger-btn.is-active .top 
+{
     transform: rotate(-45deg) translate(-9px, 8px);
 }
 
-.hamburger-btn.is-active .meat {
+.hamburger-btn.is-active .meat 
+{
     opacity: 0;
 }
 
-.hamburger-btn.is-active .bottom {
+.hamburger-btn.is-active .bottom 
+{
     transform: rotate(45deg) translate(-9px, -8px);
 }
 
-.filter-menu {
+.filter-menu 
+{
     width: 200px;
     background-color: #212e46;
     position: absolute;
@@ -497,17 +530,20 @@ footer
     flex-direction: column;
 }
 
-.filter-menu.is-open {
+.filter-menu.is-open 
+{
     height: 340px;
     overflow-y: auto;
 }
 
-#filter-spec .filter-menu {
+#filter-spec .filter-menu 
+{
     left: auto;
     right: 0;
 }
 
-.link1 {
+.link1 
+{
     width: 100%;
     padding: 15px 0;
     font: 700 18px 'Oswald', sans-serif;
@@ -517,7 +553,8 @@ footer
     display: block;
 }
 
-.link1:hover {
+.link1:hover 
+{
     background-color: #565454;
     color: rgb(61, 61, 61);
 }
@@ -539,8 +576,8 @@ footer
     justify-content: center;
     align-items: center;
 }
-/* Stile del bottone Hamburger (nascosto su Desktop) */
-.hamburger-nav {
+.hamburger-nav 
+{
     display: none;
     flex-direction: column;
     justify-content: space-around;
@@ -552,29 +589,29 @@ footer
     z-index: 2000;
 }
 
-.hamburger-nav span {
+.hamburger-nav span 
+{
     width: 100%;
     height: 3px;
-    background-color: white; /* Cambia colore se serve */
+    background-color: white;
     border-radius: 2px;
 }
 
-/* MEDIA QUERY MOBILE */
-@media (max-width: 768px) {
-    /* Mostra hamburger */
+@media (max-width: 768px) 
+{
     .hamburger-nav {
         display: flex;
-        margin-left: auto; /* Lo spinge a destra */
+        margin-left: auto;
     }
 
-    /* Nascondi il menu normale di destra */
+
     .right_item {
-        display: none; /* NASCOSTO DI DEFAULT */
+        display: none;
         position: absolute;
-        top: 100%; /* Subito sotto la navbar */
+        top: 100%;
         left: 0;
         width: 100%;
-        background-color: rgb(60, 140, 189); /* Colore navbar */
+        background-color: rgb(60, 140, 189);
         flex-direction: column;
         align-items: center;
         padding: 20px 0;
@@ -583,22 +620,24 @@ footer
         box-shadow: 0 5px 5px rgba(0,0,0,0.2);
     }
 
-    /* Classe che il JS aggiungerà per mostrare il menu */
-    .right_item.active {
+
+    .right_item.active 
+    {
         display: flex; 
     }
 
-    /* Adattamento dropdown login/register su mobile */
-    .auth_dropdown {
-        position: static; /* Non fluttuante su mobile */
+
+    .auth_dropdown 
+    {
+        position: static;
         width: 90%;
         margin-top: 10px;
         box-shadow: none;
         background: rgba(255,255,255,0.1);
     }
 
-    /* Adattamento form login/register */
-    .login_item, .register_item, .user_item {
+    .login_item, .register_item, .user_item 
+    {
         width: 100%;
         display: flex;
         flex-direction: column;

@@ -39,7 +39,7 @@
                     <input type="email" name="email" value="{{ old('email', $utente->email) }}" class="form-input" required>
                 </div>
 
-                <p >Lascia vuoti i campi qui sotto se NON vuoi cambiare la password.</p>
+                <p >Lasciare vuoto se non si vuole cambiare la password</p>
 
                 <div class="form_modifica">
                     <label>Nuova Password</label>

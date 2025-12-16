@@ -74,7 +74,7 @@ class ProfessionistaController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function mostra_dottore($id)
     {
         $dottore = Professionista::leftJoin(
             'specializzazioni', 
@@ -82,9 +82,7 @@ class ProfessionistaController extends Controller
             '=', 
             'specializzazioni.tipo')
 
-            ->select(
-                'professionisti.*', 
-                'specializzazioni.pic')
+            ->select('professionisti.*')
                 
             ->where('professionisti.id', $id)
             

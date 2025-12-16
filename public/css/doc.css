@@ -1,27 +1,29 @@
 .dettagli_doc 
 {
+    height: 100%;
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
     padding: 40px;
     gap: 40px;
     width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
     box-sizing: border-box;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
-/* CORRETTO: colonna-sx (con il trattino, non underscore) */
-.colonna-sx 
+.colonna_sx 
 {
     flex: 1;
-    /* max-width: 50%;  <-- Rimosso per lasciare che flex gestisca lo spazio */
 }
 
-/* CORRETTO: colonna-dx (con il trattino, non underscore) */
-.colonna-dx 
+.colonna_dx 
 {
     flex: 1;
-    height: 500px; /* Altezza fissa su desktop */
-    width: 100%;   /* Assicura che riempia il contenitore flex */
+    height: 500px;
+    width: 100%;
+    position: sticky; 
+    top: 100px;
 }
 
 .nome 
@@ -105,6 +107,7 @@
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
+    transition: background-color 0.3s ease; 
 }
 
 .btn_prenotazione:hover 
@@ -112,14 +115,31 @@
     background-color: #1a252f;
 }
 
-/* Stile della mappa */
+
 .mappa 
 {
+    margin-top: 80px;
     width: 100%;
-    height: 100%; /* Prende l'altezza del genitore (.colonna-dx) */
+    height: 100%;
     border-radius: 15px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     z-index: 1;
+}
+
+@media (min-width: 1600px) {
+    .dettagli_doc {
+        max-width: 1600px;
+        padding: 60px;
+        gap: 60px;
+    }
+    
+    .nome {
+        font-size: 3rem;
+    }
+    
+    .colonna_dx {
+        height: 600px;
+    }
 }
 
 @media (max-width: 900px) 
@@ -135,8 +155,14 @@
         width: 100%;
         max-width: 100%;
     }
+    .colonna_dx 
+    {
+        height: 300px; 
+        position: static;
+    }
     .nome 
     {
         font-size: 2rem;
+        text-align: center;
     }
 }

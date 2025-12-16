@@ -14,10 +14,22 @@ class Professionista extends Model
     {
         if ($term) {
             return $query->where(function($q) use ($term) {
-                $q->where('professionisti.nome', 'like', '%' . $term . '%')
-                  ->orWhere('professionisti.specializzazione', 'like', '%' . $term . '%')
-                  ->orWhere('professionisti.citta', 'like', '%' . $term . '%')
-                  ->orWhere('professionisti.sede_studio', 'like', '%' . $term . '%');
+                $q->where(
+                    'professionisti.nome', 
+                    'like', 
+                    '%' . $term . '%')
+                  ->orWhere(
+                    'professionisti.specializzazione', 
+                    'like', 
+                    '%' . $term . '%')
+                  ->orWhere(
+                    'professionisti.citta', 
+                    'like',
+                     '%' . $term . '%')
+                  ->orWhere(
+                    'professionisti.sede_studio', 
+                    'like', 
+                    '%' . $term . '%');
             });
         }
         

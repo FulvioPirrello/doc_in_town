@@ -31,7 +31,7 @@ class RegisterController extends Controller
             ], [
                 'username.unique' => 'Username già in uso.',
                 'email.unique'    => 'Email già registrata.',
-                'password.regex'  => 'La password deve contenere maiuscole, numeri e caratteri speciali.',
+                'password.regex'  => 'La password deve contenere maiuscole, numeri e caratteri speciali (@£$!?).',
                 'password.same'   => 'Le password non coincidono.'
             ]);
 
@@ -49,13 +49,16 @@ class RegisterController extends Controller
                 "messaggio" => "Registrazione effettuata con successo!"
             ], 201);
 
-        } catch (ValidationException $e) {
+        } 
+        catch (ValidationException $e) 
+        {
             return response()->json([
                 "success"   => false,
                 "messaggio" => $e->validator->errors()->first()
             ], 422);
 
-        } catch (\Exception $e) {
+        } catch (\Exception $e) 
+        {
             Log::error("Errore registrazione: " . $e->getMessage());
             
             return response()->json([

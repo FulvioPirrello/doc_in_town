@@ -53,7 +53,7 @@ Route::get(
 Route::get(
     '/professionista/{id}', 
     [ProfessionistaController::class, 
-    'show'])
+    'mostra_dottore'])
     ->name('mostra_professionista');
 
 Route::get(
