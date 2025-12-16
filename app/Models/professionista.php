@@ -10,7 +10,7 @@ class Professionista extends Model
     use HasFactory;
     protected $table = 'professionisti'; 
 
-    public function scopeSearch($query, $term)
+    public function ricerca_medico($query, $term)
     {
         if ($term) {
             return $query->where(function($q) use ($term) {

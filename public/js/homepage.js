@@ -49,16 +49,17 @@ document.addEventListener("DOMContentLoaded", () =>
         }
     });
 
-    document.addEventListener('click', (event) => {
-    filtri.forEach(container => 
+    document.addEventListener('click', (event) => 
     {
-        if (!container.contains(event.target)) 
+        filtri.forEach(container => 
         {
-            container.querySelector('.filter-menu').classList.remove('is-open');
-            container.querySelector('.hamburger-btn').classList.remove('is-active');
-        }
+            if (!container.contains(event.target)) 
+            {
+                container.querySelector('.filter-menu').classList.remove('is-open');
+                container.querySelector('.hamburger-btn').classList.remove('is-active');
+            }
+        });
     });
-});
 
     const hamburgerBtn = document.getElementById('mobile-menu-btn');
     const mainMenu = document.getElementById('main-menu');

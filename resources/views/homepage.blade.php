@@ -36,6 +36,7 @@
                     @if(request('citta'))
                         <input type="hidden" name="citta" value="{{ request('citta') }}">
                     @endif
+                    
                     @if(request('specializzazione'))
                         <input type="hidden" name="specializzazione" value="{{ request('specializzazione') }}">
                     @endif
