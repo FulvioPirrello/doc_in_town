@@ -11,10 +11,6 @@ class ProfessionistaController extends Controller
 {
     public function professionisti(Request $request) 
     {
-        $testo_cerca = $request->input('search'); 
-        $filtro_citta = $request->input('citta');
-        $filtro_spec = $request->input('specializzazione');
-
         $medici_db = Professionista::leftJoin(
             'specializzazioni', 
             'professionisti.specializzazione', 
@@ -24,39 +20,18 @@ class ProfessionistaController extends Controller
                 'professionisti.*', 
                 'specializzazioni.pic');
 
-        if ($testo_cerca) 
+        $medici_db->Medico($request->input('search'));
+
+        if ($request->filled('citta')) 
         {
-            $medici_db->where(function($q) use ($testo_cerca) 
-            {
-                $q->where(
-                    'professionisti.nome', 
-                    'LIKE', 
-                    "%{$testo_cerca}%")
-
-                  ->orWhere(
-                    'professionisti.specializzazione', 
-                    'LIKE', 
-                    "%{$testo_cerca}%")
-
-                  ->orWhere(
-                    'professionisti.citta', 
-                    'LIKE', 
-                    "%{$testo_cerca}%");
-            });
+            $medici_db->where('professionisti.citta',
+            $request->input('citta'));
         }
 
-        if ($filtro_citta) 
+        if ($request->filled('specializzazione')) 
         {
-            $medici_db->where(
-                'professionisti.citta', 
-                $filtro_citta);
-        }
-
-        if ($filtro_spec) 
-        {
-            $medici_db->where(
-                'professionisti.specializzazione', 
-                $filtro_spec);
+            $medici_db->where('professionisti.specializzazione',
+            $request->input('specializzazione'));
         }
 
         $medici = $medici_db->paginate(18);
@@ -81,15 +56,15 @@ class ProfessionistaController extends Controller
             'professionisti.specializzazione', 
             '=', 
             'specializzazioni.tipo')
-
-            ->select('professionisti.*')
-                
+            ->select('professionisti.*', 
+            'specializzazioni.pic')
             ->where('professionisti.id', $id)
-            
             ->firstOrFail();
 
         $appuntamenti = Prenotazione::where('professionista_id', $id)
-            ->where('data_visita', '>=', now()
+            ->where('data_visita', 
+            '>=', 
+            now()
             ->toDateString())
             ->get(['data_visita', 'ora_visita']);
 

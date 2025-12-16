@@ -48,7 +48,7 @@ Route::get(
     '/', 
     [ProfessionistaController::class, 
     'professionisti'])
-    ->name('login'); 
+    ->name('homepage'); 
 
 Route::get(
     '/professionista/{id}', 

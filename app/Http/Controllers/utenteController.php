@@ -64,7 +64,7 @@ class UtenteController extends Controller
     {
         $utente = Auth::user();
         return view('modifica_profilo', [
-    '               utente' => $utente]);
+                    'utente' => $utente]);
     }
 
     public function aggiorna_dati_utente(Request $request)
